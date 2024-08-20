@@ -4,9 +4,10 @@ import ROOT
 import sys
 sys.path.append("../../JPyPlotRatio")
 import JPyPlotRatio as JPPR
+import pickle
 
 #
-params_fp="../scripts/training_data_500.csv"    #path to csv file containing parameter combinations
+params_fp="../scripts/parameters_500.csv"    #path to csv file containing parameter combinations
 results_dir="../jfluc_results"                  #path to directory with respective results
 n_pts=7                                         #assumed number of points per observable
 
@@ -37,6 +38,13 @@ print(np.shape(params))
 #palapelin palat ei sovi yhteen :(
 np.save("results.npy", results)         #shape (500, 2, 7)  First indices match
 np.save("param_vectors.npy", params)    #shape (500, 14)
+
+outputList = [params, results]
+
+with open("training_data_500.pkl", "wb") as f:
+    pickle.dump(outputList, f);
+
+
 
 # param_names=[
 #     "norm", 
