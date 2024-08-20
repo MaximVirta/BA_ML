@@ -31,11 +31,11 @@ def createArray(inputFile, ind):
     print(norm, p, fluc, d, nuckleonW, taufs, etashrg, etasmin, etaslope, etascurv, zetasmax, zetasw, zetast0, tswitch);
     return np.array([ind, norm, p, nuckleonW, fluc, d*d*d, taufs, etashrg, etasmin, etaslope, etascurv, zetast0, zetasmax, zetasw, tswitch])
 
-f = open(f"training_data_{nparams}.csv", "w");
+f = open(f"testing_parameters_{nparams}.csv", "w");
 f.write(f"{info}\n");
 writer = csv.writer(f);
 
 for x in range(nparams):
-  writer.writerow(createArray(f"{designPath}/{x:03d}.txt", x))
+  writer.writerow(createArray(f"{designPath}/{x:02d}.txt", x))
 
 f.close();

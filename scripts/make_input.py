@@ -6,16 +6,21 @@ sys.path.append("../../JPyPlotRatio")
 import JPyPlotRatio as JPPR
 import pickle
 
-#
-params_fp="../scripts/parameters_500.csv"    #path to csv file containing parameter combinations
-results_dir="../jfluc_results"                  #path to directory with respective results
+
+validation = True;
+if validation:
+    params_fp="../scripts/parameters_validation_50.csv"    #path to csv file containing parameter combinations
+    results_dir="../jfluc_results/testing"                  #path to directory with respective results
+else:
+    params_fp="../scripts/parameters_500.csv"    #path to csv file containing parameter combinations
+    results_dir="../jfluc_results"                  #path to directory with respective results
 n_pts=7                                         #assumed number of points per observable
 
 #Load parameters and results
 params=np.loadtxt(params_fp, delimiter=",", skiprows=0)
 param_indices=params[:,0]
 params=np.delete(params,0,1)
-result_tfiles=[ROOT.TFile(os.path.join(results_dir, f"results-{int(params_idx):03}.root")) for params_idx in param_indices]
+result_tfiles=[ROOT.TFile(os.path.join(results_dir, f"results-{int(params_idx):02}.root" if validation else f"results-{int(params_idx):03}.root")) for params_idx in param_indices]
 
 #Each parameter vector points to a 2x7 matrix with y vals of "gr_mult_Charged" on first row and "gr_v2_QC" on the second row 
 results=np.zeros((np.shape(params)[0], 2, n_pts))              
@@ -41,7 +46,7 @@ np.save("param_vectors.npy", params)    #shape (500, 14)
 
 outputList = [params, results]
 
-with open("training_data_500.pkl", "wb") as f:
+with open("testing_data_50.pkl" if validation else "training_data_500.pkl", "wb") as f:
     pickle.dump(outputList, f);
 
 
